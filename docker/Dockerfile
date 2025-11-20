@@ -85,9 +85,14 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
   && rm -rf spec node_modules tmp/cache; \
   fi
+# ... other steps ...
+ARG GIT_SHA="unknown"
+# ... other steps ...
 
 # Generate .git_sha file with current commit hash
-RUN git rev-parse HEAD > /app/.git_sha
+# Replace: RUN git rev-parse HEAD > /app/.git_sha
+# With this:
+RUN echo $GIT_SHA > /app/.git_sha
 
 # Remove unnecessary files
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
